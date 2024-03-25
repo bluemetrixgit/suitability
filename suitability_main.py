@@ -13,6 +13,20 @@ from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
+import base64
+
+
+background_image = "imagem bmrtx.jpg"
+
+
+st.markdown(
+    f"""
+    <iframe src="data:image/jpg;base64,{base64.b64encode(open(background_image, 'rb').read()).decode(
+
+    )}" style="width:100%;height:100vh;position:fixed;top:0;left:50;opacity: 0.3;frameborder:80;"></iframe>
+    """,
+    unsafe_allow_html=True
+)
 
 dia_e_hora = datetime.datetime.now().strftime("%d %m %Y")
 class Interface_suitability():
