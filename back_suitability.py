@@ -35,7 +35,10 @@ mapeamento_respostas = {
     'Tenho experiência no mercado financeiro, domino os conceitos e tomo minhas próprias decisões de investimento': 3,
     'Resgataria imediatamente': 1,
     'Estabeleceria um limite máximo de perda antes de resgatar': 2,
-    'Investiria mais recursos adicionais': 3
+    'Investiria mais recursos adicionais': 3,
+    'Investidor Profissional: Investidor profissional é uma pessoa jurídica ou física que atua no mercado financeiro, diretamente ou por meio de terceiros, e que possui investimentos financeiros em valor superior a R$ 10 milhões e atestou por escrito(Assinou o termo de Investidor Profissional). ':0,
+    'Investidor Qualificado: Pessoa física ou jurídica que possui investimentos financeiros em valor superior a R$ 1 milhão e atestou por escrito(Assinou o termo de Investidor Qualificado).':0,
+    'Investidor Varejo: Um investidor varejo é aquele que não se enquadra nas definições de investidor profissional ou qualificado. Geralmente, são indivíduos com menor patrimônio investido ou sem certificações específicas para o mercado financeiro.':0
 }
 
 

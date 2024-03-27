@@ -91,13 +91,19 @@ class Interface_suitability():
                                 ['Resgataria imediatamente',
                                 'Estabeleceria um limite máximo de perda antes de resgatar',
                                 'Investiria mais recursos adicionais'],key='Decima')
+        st.text("")
+        decima_primeira_pregunta = st.radio('"Qual é o seu perfil de investidor: Profissional, Qualificado ou Varejo?"',
+                                            ['Investidor Profissional: Investidor profissional é uma pessoa jurídica ou física que atua no mercado financeiro, diretamente ou por meio de terceiros, e que possui investimentos financeiros em valor superior a R$ 10 milhões e atestou por escrito(Assinou o termo de Investidor Profissional). ',
+                                                'Investidor Qualificado: Pessoa física ou jurídica que possui investimentos financeiros em valor superior a R$ 1 milhão e atestou por escrito(Assinou o termo de Investidor Qualificado).',
+                                                'Investidor Varejo: Um investidor varejo é aquele que não se enquadra nas definições de investidor profissional ou qualificado. Geralmente, são indivíduos com menor patrimônio investido ou sem certificações específicas para o mercado financeiro.'])
         sexta_pergunta = sexta_pergunta if sexta_pergunta else []
-        return (primeira_pergunta,segunda_pergunta,terceira_pergunta,quarta_pergunta,quinta_pergunta,sexta_pergunta,setima_pergunta,oitava_pergunta,nona_pergunta,decima_pergunta)
+
+        return (primeira_pergunta,segunda_pergunta,terceira_pergunta,quarta_pergunta,quinta_pergunta,sexta_pergunta,setima_pergunta,oitava_pergunta,nona_pergunta,decima_pergunta,decima_primeira_pregunta)
 class GeradorPDF:
     def __init__(self, filename):
         self.filename = filename
     
-    def gerar_pdf(self, suitability_result,nome_cliente,cpf):
+    def gerar_pdf(self,respostas, suitability_result,nome_cliente,cpf):
 
         c = canvas.Canvas(self.filename, pagesize=letter)
         img1 = ImageReader("imagem bmrtx.jpg")
@@ -111,7 +117,6 @@ class GeradorPDF:
         c.setFont('Times-Roman', 15)  # Fonte em negrito, tamanho 16
         c.setFillColor('black')
         c.drawString(190, 550, f'CPF   {cpf}')
-
 
         c.setFont('Times-Roman', 15)  # Fonte em negrito, tamanho 16
         c.setFillColor('black')
@@ -131,10 +136,25 @@ class GeradorPDF:
         img = ImageReader("imagem bmrtx.jpg")
         c.drawImage(img, 150, 10, width=250, height=200,mask='auto')
 
+        c.showPage()
+        img1 = ImageReader("imagem bmrtx.jpg")
+        c.drawImage(img1, 150, 600, width=250, height=200, mask='auto')
 
+        c.setFont('Times-Roman', 10)
+        c.drawString(50, 500, "Respostas do Questionário:")
+        y_offset = 470
+        for idx, resposta in enumerate(respostas, start=1):
+            c.drawString(50, y_offset - (idx * 20), f"Pergunta {idx}: {resposta}")
+
+        img = ImageReader("imagem bmrtx.jpg")
+        c.drawImage(img, 150, 10, width=250, height=200, mask='auto')
+
+        # Salvando o arquivo PDF
         c.save()
         print(f"PDF gerado com sucesso: {self.filename}")
 
+        return c
+    
 def enviar_email(nome_cliente,nome_do_arquivo_pdf):
     corpo_do_email = """
     suitability
@@ -194,7 +214,7 @@ if __name__=='__main__':
     # Calcule o resultado do suitability
         resultado_suitability = suitability_final  # Substitua isso pelo resultado real do seu cálculo
         gerador_pdf = GeradorPDF(nome_arquivo_pdf)
-        gerador_pdf.gerar_pdf(resultado_suitability,nome_cliente,cpf)
+        gerador_pdf.gerar_pdf(respostas,resultado_suitability,nome_cliente,cpf)
         enviar_email(nome_cliente,nome_arquivo_pdf)
         st.success('Suitability enviado, Obrigado')    
 
