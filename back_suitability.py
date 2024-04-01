@@ -51,9 +51,9 @@ class Calculando_Suitability():
         respostas = tuple(respostas)
         print(respostas)
         total = sum(mapeamento_respostas[resp] for resp in respostas)
-        if total <= 10:
+        if total <= 15:
             return 'Conservador'
-        elif 10 < total <= 20:
+        elif 16 < total <= 24:
             return 'Moderado'
         else:
             return 'Arrojado'

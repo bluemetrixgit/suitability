@@ -23,7 +23,7 @@ st.markdown(
     f"""
     <iframe src="data:image/jpg;base64,{base64.b64encode(open(background_image, 'rb').read()).decode(
 
-    )}" style="width:100%;height:100vh;position:fixed;top:0;left:50;opacity: 0.3;frameborder:80;"></iframe>
+    )}" style="width:100%;height:100vh;position:absolute;top:15vh;left:50;opacity: 0.3;frameborder:80;"></iframe>
     """,
     unsafe_allow_html=True
 )
@@ -95,7 +95,7 @@ class Interface_suitability():
         decima_primeira_pregunta = st.radio('"Qual é o seu perfil de investidor: Profissional, Qualificado ou Varejo?"',
                                             ['Investidor Profissional: Investidor profissional é uma pessoa jurídica ou física que atua no mercado financeiro, diretamente ou por meio de terceiros, e que possui investimentos financeiros em valor superior a R$ 10 milhões e atestou por escrito(Assinou o termo de Investidor Profissional). ',
                                                 'Investidor Qualificado: Pessoa física ou jurídica que possui investimentos financeiros em valor superior a R$ 1 milhão e atestou por escrito(Assinou o termo de Investidor Qualificado).',
-                                                'Investidor Varejo: Um investidor varejo é aquele que não se enquadra nas definições de investidor profissional ou qualificado. Geralmente, são indivíduos com menor patrimônio investido ou sem certificações específicas para o mercado financeiro.'])
+                                                'Investidor Varejo: Um investidor varejo é aquele que não se enquadra nas definições de investidor profissional ou qualificado. Geralmente, são indivíduos sem certificações específicas para o mercado financeiro.'])
         sexta_pergunta = sexta_pergunta if sexta_pergunta else []
 
         return (primeira_pergunta,segunda_pergunta,terceira_pergunta,quarta_pergunta,quinta_pergunta,sexta_pergunta,setima_pergunta,oitava_pergunta,nona_pergunta,decima_pergunta,decima_primeira_pregunta)
