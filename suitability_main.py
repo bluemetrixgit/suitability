@@ -23,7 +23,7 @@ st.markdown(
     f"""
     <iframe src="data:image/jpg;base64,{base64.b64encode(open(background_image, 'rb').read()).decode(
 
-    )}" style="width:100%;height:100vh;position: absolute;top:15vh;left:0;opacity: 0.3;background-size: cover;background-position: center;background-repeat: no-repeat; border:none;margin:0;padding:0;overflow:hidden;frameborder:0;overflow-x: hidden;overflow-y: hidden;object-fit: cover;"></iframe>
+    )}" style="width:100%;height:2000px;position: absolute;top:15vh;left:0;opacity: 0.3;background-size: cover;background-position: center;background-repeat: no-repeat; border:none;margin:0;padding:0;overflow: hidden;frameborder:0;overflow-x: hidden;overflow-y: hidden;object-fit: cover;"></iframe>
     """,
     unsafe_allow_html=True
 )
