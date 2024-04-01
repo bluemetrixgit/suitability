@@ -23,7 +23,7 @@ st.markdown(
     f"""
     <iframe src="data:image/jpg;base64,{base64.b64encode(open(background_image, 'rb').read()).decode(
 
-    )}" style="width:100%;height:100vh;position:absolute;top:15vh;left:50;opacity: 0.3;frameborder:0;overflow-x: hidden;"></iframe>
+    )}" style="width:100%;height:100vh;position:absolute;top:15vh;left:50;opacity: 0.3;frameborder:0;overflow-x: hidden;object-fit: cover;"></iframe>
     """,
     unsafe_allow_html=True
 )
