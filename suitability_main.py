@@ -66,11 +66,11 @@ class Interface_suitability():
                                     'De 1 a 5 anos',
                                     'Acima de 5 anos'],key='Quinta')
         st.text("")
-        sexta_pergunta = st.radio('Quais tipos de ativos você já investiu?',
-                                ['Previdência privada ,Títulos privados (CDB, LCA, LCI)Títulos públicos (Tesouro Direto)',
-                                'Fundos (imobiliários, multimercado, de ações, direitos creditórios, de renda fixa)',
-                                'Derivativos, Investimentos no exterior',
-                                'Não tenho familiaridade com investimentos'],key='Sexta')
+        sexta_pergunta = st.radio("Qual é a sua experiência e conhecimento sobre os produtos e serviços oferecidos no mercado financeiro?",
+                                ['Nenhuma: Não possuo experiência prévia e nunca realizei investimentos no mercado financeiro.',
+                                'Limitada: Tenho conhecimento muito básico e comecei a investir recentemente.',
+                                'Moderada: Acompanho esporadicamente e possuo um entendimento básico sobre o mercado financeiro.',
+                                'Suficiente: Tenho um conhecimento abrangente sobre os produtos e ativos disponíveis, incluindo fundos, derivativos e títulos.'],key='Sexta')
         st.text("")
         setima_pergunta = st.radio('Qual característica é mais importante para você ao investir?',
                                 ['Liquidez',

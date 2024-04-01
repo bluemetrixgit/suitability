@@ -11,19 +11,19 @@ mapeamento_respostas = {
     'Entre 1 e 5 anos': 2,
     'Por mais de 5 anos': 3,
     'Preservação de patrimônio': 1,
-    'Aumento de capital': 2,
-    'Geração de renda': 3,
+    'Aumento de capital': 3,
+    'Geração de renda': 2,
     'Carteira sem oscilações negativas, com rendimentos previsíveis': 1,
     'Carteira com oscilações moderadas, possibilidade de retornos negativos, com a capacidade de alcançar rendimentos elevados': 2,
     'Carteira com alta volatilidade, com retornos negativos frequentes, mas com possibilidade de ganhos expressivos': 3,
     'Este seria o meu primeiro investimento': 1,
-    'Menos de 1 ano': 2,
-    'De 1 a 5 anos': 3,
-    'Acima de 5 anos': 4,
-    'Previdência privada ,Títulos privados (CDB, LCA, LCI)Títulos públicos (Tesouro Direto)':1,
-    'Fundos (imobiliários, multimercado, de ações, direitos creditórios, de renda fixa)':2,
-    'Derivativos, Investimentos no exterior':3,
-    'Não tenho familiaridade com investimentos': 1,
+    'Menos de 1 ano': 1,
+    'De 1 a 5 anos': 2,
+    'Acima de 5 anos': 3,
+    'Nenhuma: Não possuo experiência prévia e nunca realizei investimentos no mercado financeiro.':1,
+    'Limitada: Tenho conhecimento muito básico e comecei a investir recentemente.':1,
+    'Moderada: Acompanho esporadicamente e possuo um entendimento básico sobre o mercado financeiro.':2,
+    'Suficiente: Tenho um conhecimento abrangente sobre os produtos e ativos disponíveis, incluindo fundos, derivativos e títulos.': 3,
     'Liquidez': 1,
     'Segurança': 2,
     'Rentabilidade': 3,
@@ -51,9 +51,9 @@ class Calculando_Suitability():
         respostas = tuple(respostas)
         print(respostas)
         total = sum(mapeamento_respostas[resp] for resp in respostas)
-        if total <= 15:
+        if total <= 13:
             return 'Conservador'
-        elif 16 < total <= 24:
+        elif 14 < total <= 22:
             return 'Moderado'
         else:
             return 'Arrojado'
