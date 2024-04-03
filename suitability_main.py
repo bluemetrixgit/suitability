@@ -227,5 +227,6 @@ if __name__=='__main__':
         gerador_pdf = GeradorPDF(nome_arquivo_pdf)
         gerador_pdf.gerar_pdf(respostas,resultado_suitability,nome_cliente,cpf)
         enviar_email(nome_cliente,nome_arquivo_pdf)
- 
+        st.success('Suitability enviado, Obrigado')
+        print('teste')  
 
