@@ -16,14 +16,23 @@ from email.mime.application import MIMEApplication
 import base64
 
 
-background_image = "imagem bmrtx.jpg"
+background_image = "LOGO_BLUEMETRIX_VERTICAL jpg.jpg"
 
+
+# st.markdown(
+#     f"""
+#     <iframe src="data:image/jpg;base64,{base64.b64encode(open(background_image, 'rb').read()).decode(
+
+#     )}" style="width:100%;height:2000px;position: absolute;top:15vh;left:0;opacity: 0.3;background-size: cover;background-position: center;background-repeat: no-repeat; border:none;margin:0;padding:0;overflow: hidden;frameborder:0;overflow-x: hidden;overflow-y: hidden;object-fit: cover;"></iframe>
+#     """,
+#     unsafe_allow_html=True
+# )
 
 st.markdown(
     f"""
     <iframe src="data:image/jpg;base64,{base64.b64encode(open(background_image, 'rb').read()).decode(
 
-    )}" style="width:100%;height:2000px;position: absolute;top:15vh;left:0;opacity: 0.3;background-size: cover;background-position: center;background-repeat: no-repeat; border:none;margin:0;padding:0;overflow: hidden;frameborder:0;overflow-x: hidden;overflow-y: hidden;object-fit: cover;"></iframe>
+    )}" style="width:3000px;height:3000px;position: absolute;top:-30vh;left:-900px;opacity: 0.2;background-size: cover;background-position: center;"></iframe>
     """,
     unsafe_allow_html=True
 )
@@ -95,9 +104,10 @@ class Interface_suitability():
         decima_primeira_pregunta = st.radio('"Qual é o seu perfil de investidor: Profissional, Qualificado ou Varejo?"',
                                             ['Investidor Profissional: Investidor profissional é uma pessoa jurídica ou física que atua no mercado financeiro, diretamente ou por meio de terceiros, e que possui investimentos financeiros em valor superior a R$ 10 milhões e atestou por escrito(Assinou o termo de Investidor Profissional). ',
                                                 'Investidor Qualificado: Pessoa física ou jurídica que possui investimentos financeiros em valor superior a R$ 1 milhão e atestou por escrito(Assinou o termo de Investidor Qualificado).',
-                                                'Investidor Varejo: Um investidor varejo é aquele que não se enquadra nas definições de investidor profissional ou qualificado. Geralmente, são indivíduos sem certificações específicas para o mercado financeiro.'])
+                                                'Investidor Varejo: Um investidor varejo é aquele que não se enquadra nas definições de investidor profissional ou qualificado. Geralmente, são indivíduos sem certificações específicas para o mercado financeiro.'],
+                                                )
         sexta_pergunta = sexta_pergunta if sexta_pergunta else []
-
+        st.write('Conforem Instrução CVM N. 554/2014')
         return (primeira_pergunta,segunda_pergunta,terceira_pergunta,quarta_pergunta,quinta_pergunta,sexta_pergunta,setima_pergunta,oitava_pergunta,nona_pergunta,decima_pergunta,decima_primeira_pregunta)
 class GeradorPDF:
     def __init__(self, filename):
@@ -206,6 +216,7 @@ if __name__=='__main__':
     st.text("")
     if st.button('Enviar',type='primary'):
         suitability_final = calculando.definindo_suitability(*respostas)
+        st.write('O seu perfil é :')
         st.warning(suitability_final)
         # Use o nome do arquivo que você deseja para o PDF
         
