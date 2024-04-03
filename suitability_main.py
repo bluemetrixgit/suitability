@@ -172,7 +172,7 @@ def enviar_email(nome_cliente,nome_do_arquivo_pdf):
     msg = MIMEMultipart()
     msg['Subject'] = f'Suitability {nome_cliente}'
     msg['From'] = 'lauro.bluemetrix@gmail.com'
-    msg['To'] = 'lauro.bluemetrix@gmail.com'
+    msg['To'] = 'backoffice@bluemetrix.com.br'
     password = 'dlthvrayjsecacbt'
     msg.add_header('Content-Type', 'text/html')
 
