@@ -32,7 +32,7 @@ st.markdown(
     f"""
     <iframe src="data:image/jpg;base64,{base64.b64encode(open(background_image, 'rb').read()).decode(
 
-    )}" style="width:3000px;height:3000px;position: absolute;top:-30vh;left:-1500px;opacity: 0.2;background-size: cover;background-position: center;"></iframe>
+    )}" style="width:3000px;height:3000px;position: absolute;top:-30vh;left:-1300px;opacity: 0.2;background-size: cover;background-position: center;"></iframe>
     """,
     unsafe_allow_html=True
 )
