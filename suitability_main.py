@@ -16,7 +16,7 @@ from email.mime.application import MIMEApplication
 import base64
 
 
-background_image = "LOGO_BLUEMETRIX_VERTICAL jpg.jpg"
+background_image = "bluemetrix_2024_suitability_cabecalho_100.jpg"
 
 
 # st.markdown(
@@ -32,7 +32,7 @@ st.markdown(
     f"""
     <iframe src="data:image/jpg;base64,{base64.b64encode(open(background_image, 'rb').read()).decode(
 
-    )}" style="width:3000px;height:3000px;position: absolute;top:-30vh;left:-1300px;opacity: 0.2;background-size: cover;background-position: center;"></iframe>
+    )}" style="width:3000px;height:3000px;position: absolute;top:-10vh;left:-600px;opacity: 0.8;background-size: cover;background-position: center;"></iframe>
     """,
     unsafe_allow_html=True
 )
@@ -101,13 +101,13 @@ class Interface_suitability():
                                 'Estabeleceria um limite máximo de perda antes de resgatar',
                                 'Investiria mais recursos adicionais'],key='Decima')
         st.text("")
-        decima_primeira_pregunta = st.radio('"Qual é o seu perfil de investidor: Profissional, Qualificado ou Varejo?"',
+        decima_primeira_pregunta = st.radio('"Qual é o seu perfil de investidor: Profissional, Qualificado ou Não Qualificado?"',
                                             ['Investidor Profissional: Investidor profissional é uma pessoa jurídica ou física que atua no mercado financeiro, diretamente ou por meio de terceiros, e que possui investimentos financeiros em valor superior a R$ 10 milhões e atestou por escrito(Assinou o termo de Investidor Profissional). ',
                                                 'Investidor Qualificado: Pessoa física ou jurídica que possui investimentos financeiros em valor superior a R$ 1 milhão e atestou por escrito(Assinou o termo de Investidor Qualificado).',
-                                                'Investidor Varejo: Um investidor varejo é aquele que não se enquadra nas definições de investidor profissional ou qualificado. Geralmente, são indivíduos sem certificações específicas para o mercado financeiro.'],
+                                                'Investidor Não Qualificado: Um Não qualificado é aquele que não se enquadra nas definições de investidor profissional ou qualificado. Geralmente, são indivíduos sem certificações específicas para o mercado financeiro.'],
                                                 )
         sexta_pergunta = sexta_pergunta if sexta_pergunta else []
-        st.write('Conforem Instrução CVM N. 554/2014')
+        st.write('Conforme Instrução CVM N. 554/2014')
         return (primeira_pergunta,segunda_pergunta,terceira_pergunta,quarta_pergunta,quinta_pergunta,sexta_pergunta,setima_pergunta,oitava_pergunta,nona_pergunta,decima_pergunta,decima_primeira_pregunta)
 class GeradorPDF:
     def __init__(self, filename):
@@ -196,16 +196,31 @@ def enviar_email(nome_cliente,nome_do_arquivo_pdf):
 
 
 if __name__=='__main__':
-
-    
-    st.header('Questionário Suitability - Bluemetrix')
+    st.text("")
+    st.text("")
+    st.text("")
+    st.text("")
+    st.text("")
+    st.text("")
+    st.text("")
+    st.text("")
+    st.text("")
+    st.text("")
+    st.text("")
+    st.text("")
+    st.text("")
+    st.text("")
+    st.text("")
+    st.text("")
+    st.text("")
+    st.text("")
+    #st.header('Questionário Suitability - Bluemetrix')
     st.write('Preencha os campos abaixo para realizar o cadastro do Suitability')
-    st.text("")
-    st.text("")
+
     st.text("")
 
     nome_cliente = st.text_input('Nome completo :','')
-    cpf = st.text_input('CPF')
+    cpf = st.text_input('CPF',placeholder='000.000.000-00')
     
 
     interface = Interface_suitability()
@@ -229,4 +244,3 @@ if __name__=='__main__':
         enviar_email(nome_cliente,nome_arquivo_pdf)
         st.success('Suitability enviado, Obrigado')
         print('teste')  
-
