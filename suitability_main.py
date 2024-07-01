@@ -32,7 +32,7 @@ st.markdown(
     f"""
     <iframe src="data:image/jpg;base64,{base64.b64encode(open(background_image, 'rb').read()).decode(
 
-    )}" style="width:3000px;height:3000px;position: absolute;top:-10vh;left:-600px;opacity: 0.8;background-size: cover;background-position: center;"></iframe>
+    )}" style="width:2000px;height:3000px;position: absolute;top:-10vh;left:-600px;opacity: 0.8;background-size: cover;background-position: center;"></iframe>
     """,
     unsafe_allow_html=True
 )
@@ -196,6 +196,9 @@ def enviar_email(nome_cliente,nome_do_arquivo_pdf):
 
 
 if __name__=='__main__':
+    st.text("")
+    st.text("")
+    st.text("")
     st.text("")
     st.text("")
     st.text("")
