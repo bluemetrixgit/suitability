@@ -9,7 +9,7 @@ mapeamento_respostas = {
     'Acima de 10 milhões': 4,
     'Por até 1 ano': 1,
     'Entre 1 e 5 anos': 2,
-    'Por mais de 5 anos': 2,
+    'Por mais de 5 anos': 3,
     'Preservação de patrimônio': 1,
     'Aumento de capital': 2,
     'Geração de renda': 2,
@@ -49,12 +49,10 @@ class Calculando_Suitability():
 
     def definindo_suitability(self,*respostas):
         respostas = tuple(respostas)
-        print(respostas)
         total = sum(mapeamento_respostas[resp] for resp in respostas)
         if total <= 13:
             return 'Conservador'
-        elif 14 < total <= 22:
+        elif 14 <= total <= 22:
             return 'Moderado'
         else:
             return 'Arrojado'
-

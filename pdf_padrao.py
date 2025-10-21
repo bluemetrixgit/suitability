@@ -1,126 +1,154 @@
-from reportlab.lib.pagesizes import letter
+# -*- coding: utf-8 -*-
+
 from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import mm
 from reportlab.lib.utils import ImageReader
-from suitability_main import Interface_suitability
-from reportlab.lib import utils
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+import os, re
+from textwrap import wrap
+from datetime import datetime
+
+# Fonte (opcional)
+try:
+    pdfmetrics.registerFont(TTFont("DejaVuSans", "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"))
+    FONT_NAME = "DejaVuSans"
+except Exception:
+    FONT_NAME = "Helvetica"
+
+PAGE_W, PAGE_H = A4
+LEFT = 20 * mm
+RIGHT = PAGE_W - 20 * mm
+TOP = PAGE_H - 20 * mm
+BOTTOM = 20 * mm
+LINE_H = 6 * mm
+NEW_PAGE_TOP = PAGE_H - 60*mm  # ponto seguro abaixo do cabeçalho
+CONTENT_LEFT = LEFT
+CONTENT_WIDTH = RIGHT - LEFT
+
+
+LOGO_PATH = "bluemetrix_2024_suitability_cabecalho_100.jpg"
+
+
+def draw_header(c: canvas.Canvas, titulo: str):
+    if os.path.exists(LOGO_PATH):
+        c.drawImage(ImageReader(LOGO_PATH), 0, PAGE_H - 45*mm, width=PAGE_W, height=45*mm, mask='auto')
+
+
+def desenhar_rodape(c: canvas.Canvas, page_num: int):
+    c.setFont(FONT_NAME, 11)  # um pouco maior para destacar
+    c.setFillColorRGB(0.4, 0.4, 0.4)
+
+    # Texto central
+    c.drawCentredString(PAGE_W/2, 15*mm, "Bluemetrix Asset")
+
+    # Número da página no canto direito
+    c.setFont(FONT_NAME, 9)
+    c.drawRightString(RIGHT, 15*mm, f"página {page_num}")
 
 
 
-perguntas = {'Qual é o patrimônio financeiro já investido?':[
-                'Até 200 mil',
-                'De 200 mil a 1 milhão',
-                'De 1 milhão a 10 milhões',
-                'Acima de 10 milhões'],            
-        
-        'Por quanto tempo você planeja manter seus investimentos?':
-                                    ['Por até 1 ano',
-                                    'Entre 1 e 5 anos',
-                                    'Por mais de 5 anos'],
-        
-
-        'Qual é o seu objetivo com os investimentos?':
-                                    ['Preservação de patrimônio',
-                                    'Aumento de capital',
-                                    'Geração de renda'],
-
-        'Em uma relação de risco-retorno, qual carteira você prefere?':
-                                ['Carteira sem oscilações negativas, com rendimentos previsíveis',
-                                    'Carteira com oscilações moderadas, possibilidade de retornos negativos, com a capacidade de alcançar rendimentos elevados',
-                                    'Carteira com alta volatilidade, com retornos negativos frequentes, mas com possibilidade de ganhos expressivos',
-                                    ],
-        
-
-        'Há quanto tempo você possui investimentos no mercado financeiro?':
-                                ['Este seria o meu primeiro investimento',
-                                    'Menos de 1 ano',
-                                    'De 1 a 5 anos',
-                                    'Acima de 5 anos'],
+def draw_wrapped_text(c: canvas.Canvas, text: str, x: float, y: float, max_width: float, font_size: int = 11):
+    """Escreve texto com quebra automática por largura; retorna a nova coordenada Y."""
+    c.setFont(FONT_NAME, font_size)
+    avg_char_w = pdfmetrics.stringWidth("M", FONT_NAME, font_size) * 0.6 + 0.1
+    max_chars = max(int(max_width / avg_char_w), 10)
+    for line in text.splitlines():
+        for chunk in wrap(line, width=max_chars):
+            c.drawString(x, y, chunk)
+            y -= LINE_H
+    return y
 
 
-        "Qual é a sua experiência e conhecimento sobre os produtos e serviços oferecidos no mercado financeiro?":
-                                ['Nenhuma: Não possuo experiência prévia e nunca realizei investimentos no mercado financeiro.',
-                                'Limitada: Tenho conhecimento muito básico e comecei a investir recentemente.',
-                                'Moderada: Acompanho esporadicamente e possuo um entendimento básico sobre o mercado financeiro.',
-                                'Suficiente: Tenho um conhecimento abrangente sobre os produtos e ativos disponíveis, incluindo fundos, derivativos e títulos.'],
-   
-   
-        'Qual característica é mais importante para você ao investir?':
-                                ['Liquidez',
-                                    'Segurança',
-                                    'Rentabilidade'],
-        
-
-       "Qual é a proporção do valor a ser investido em relação ao seu patrimônio total?":
-                                ['Menos de 25%',
-                                    'Entre 25% e 50%',
-                                    'Acima de 50%'],
-
-        'Qual das opções abaixo melhor descreve sua relação com o mercado financeiro e sua formação acadêmica?':
-                                ['Não conheço ou conheço pouco as regras do mercado financeiro e preciso de toda a orientação possível',
-                                'Conheço as regras do mercado financeiro e/ou tenho formação na área de finanças, mas ainda necessito de orientação profissional devido à falta de experiência prática',
-                                'Tenho experiência no mercado financeiro, domino os conceitos e tomo minhas próprias decisões de investimento'],
+def nova_pagina(c: canvas.Canvas, titulo: str, page_num=[1]):
+    desenhar_rodape(c, page_num[0])
+    c.showPage()
+    page_num[0] += 1
+    draw_header(c, titulo)
+    c.setFillColorRGB(0, 0, 0)
+    c.setStrokeColorRGB(0, 0, 0)
 
 
-        'Com relação aos riscos de investimentos, como você reagiria ao verificar um retorno negativo devido à volatilidade do mercado?':
-                                ['Resgataria imediatamente',
-                                'Estabeleceria um limite máximo de perda antes de resgatar',
-                                'Investiria mais recursos adicionais'],
+def formatar_cpf(cpf: str) -> str:
+    d = re.sub(r'\D', '', cpf or '')
+    if len(d) == 11:
+        return f"{d[0:3]}.{d[3:6]}.{d[6:9]}-{d[9:11]}"
+    return cpf
 
-        '"Qual é o seu perfil de investidor: Profissional, Qualificado ou Não Qualificado?"':
-                                            ['Investidor Profissional: Investidor profissional é uma pessoa jurídica ou física que atua no mercado financeiro'
-                                              'diretamente ou por meio de terceiros, e que possui investimentos financeiros em valor superior a R$ 10 milhões e atestou por escrito(Assinou o termo de Investidor Profissional). ',
-                                                'Investidor Qualificado: Pessoa física ou jurídica que possui investimentos financeiros em valor superior a R$ 1 milhão e atestou por escrito(Assinou o termo de Investidor Qualificado).',
-                                                'Investidor Não Qualificado: Um Não qualificado é aquele que não se enquadra nas definições de investidor profissional ou qualificado. Geralmente, são indivíduos sem certificações específicas para o mercado financeiro.'],
-                                                        }
+# ---------- UI helpers: painel de destaque ----------
+def chip(c, x, y, w, h, title, value, accent=False):
+    # fundo suave
+    if accent:
+        c.setFillColorRGB(0.90, 0.93, 1.00)   # levemente azulado p/ destaque do Perfil
+    else:
+        c.setFillColorRGB(0.95, 0.95, 0.95)   # cinza claro
+    c.setStrokeColorRGB(0.85, 0.85, 0.85)
+    c.roundRect(x, y - h, w, h, 3*mm, stroke=1, fill=1)
 
-
-class GeradorPDF:
-    def __init__(self):
-        print('PDF questionario suitability')
-
-    def gerar_pdf(self):
-        c = canvas.Canvas("Quest PDF.pdf", pagesize=letter)
-
-        img1 = ImageReader("LOGO_BLUEMETRIX_VERTICAL jpg.jpg")
-        c.drawImage(img1, 150, 750, width=250, height=200, mask='auto')
-
-        c.setFont('Helvetica', 10)
-        c.setFillColor('black')
-
-        y_position = 600 # Posição inicial Y das perguntas
-
-        # Iterando sobre todas as perguntas e opções e adicionando-as ao PDF
-        for indice, pergunta in enumerate(perguntas, start=1):
-            c.setFont('Helvetica-Bold', 10)
-            c.stringWidth(f"{indice}. {pergunta}")
-            #utils.stringWidth(f"{indice}. {pergunta}", 'Helvetica-Bold', 12)
-            c.drawString(10, y_position, f"{indice}. {pergunta}")
-            y_position -= 20  # Ajuste a posição Y para as opções
-
-            # Ajustando opções para uma pergunta
-            opcoes = perguntas[pergunta]
-
-            # Iterando sobre as opções da pergunta
-            for opcao in opcoes:
-                y_position -= 15  # Ajuste a posição Y para a próxima opção
-                c.setFont('Helvetica', 10)
-                c.drawString(20, y_position, f"- {opcao}")
-
-            y_position -= 30  # Espaço entre as perguntas
-
-            # Verificar se há espaço para outra pergunta na página atual
-            if y_position < 50:
-                c.showPage()  # Adicionar uma nova página
-                c.drawImage(img1, 150, 750, width=250, height=200, mask='auto')
-                y_position = 750  # Reiniciar a posição Y para a próxima página
-
-        # Salvando o arquivo PDF
-        c.save()
-        print("PDF gerado com sucesso.")
+    # textos
+    c.setFillColorRGB(0.20, 0.20, 0.20)
+    c.setFont(FONT_NAME, 10)
+    pad = 4*mm
+    c.drawString(x + pad, y - pad - 2, title)
+    c.setFont(FONT_NAME, 13 if not accent else 14)
+    c.drawString(x + pad, y - pad - 2 - 5*mm, value)
+# ----------------------------------------------------
 
 
-if __name__ == "__main__":
-    quest = Interface_suitability()
-    pdf = GeradorPDF()
-    pdf.gerar_pdf()
+def gerar_pdf(nome_arquivo: str, nome: str, cpf: str, respostas: dict, perfil: str):
+    c = canvas.Canvas(nome_arquivo, pagesize=A4)
+    c.setTitle("Bluemetrix Asset")
+    draw_header(c, "Bluemetrix Asset")
 
+    # Capa
+    y = PAGE_H - 60*mm
+    
+    c.setFillColorRGB(0, 0, 0)
+    c.setStrokeColorRGB(0, 0, 0)
+    c.setFont(FONT_NAME, 12)
+    
+    
+    # -------- Painel de destaque (Nome / CPF / Perfil) --------
+    panel_gap = 3*mm
+    row_h = 12*mm
+    col_w = (CONTENT_WIDTH - panel_gap) / 2
+    
+    # Linha 1: Nome | CPF
+    chip(c, CONTENT_LEFT, y, col_w, row_h, "Nome", nome)
+    chip(c, CONTENT_LEFT + col_w + panel_gap, y, col_w, row_h, "CPF", formatar_cpf(cpf))
+    y -= (row_h + panel_gap)
+    
+    # Linha 2: Perfil (largura total) + Data no canto direito
+    chip(c, CONTENT_LEFT, y, CONTENT_WIDTH, row_h, "Perfil apurado", perfil, accent=True)
+    c.setFillColorRGB(0, 0, 0)
+    c.setFont(FONT_NAME, 10)
+    c.drawRightString(CONTENT_LEFT + CONTENT_WIDTH - 4*mm, y - 4*mm - 2, datetime.now().strftime("%d/%m/%Y"))
+    y -= (row_h + 4*panel_gap)
+    # -------- fim do painel --------
+
+    # Perguntas/Respostas (exatamente como vierem do app)
+    c.setFont(FONT_NAME, 12)
+    for pergunta, resposta in respostas.items():
+        if y < BOTTOM + 4*LINE_H:
+            nova_pagina(c, "Bluemetrix Asset")
+            y = NEW_PAGE_TOP
+        y = draw_wrapped_text(c, f"{pergunta}", LEFT, y, RIGHT-LEFT, font_size=12)
+        y = draw_wrapped_text(c, f"Resposta: {resposta}", LEFT+6*mm, y, RIGHT-LEFT-6*mm, font_size=11)
+        y -= LINE_H/2
+
+    # Assinaturas
+    if y < BOTTOM + 6*LINE_H:
+        nova_pagina(c, "Questionário de Suitability – Bluemetrix Asset")
+        y = NEW_PAGE_TOP
+
+    y -= 2*LINE_H
+    c.line(LEFT, y, RIGHT, y); y -= LINE_H
+    c.setFont(FONT_NAME, 11)
+    c.drawString(LEFT, y, "Declaro estar ciente de que este questionário tem como objetivo identificar meu perfil de investimento.")
+    y -= 2*LINE_H
+
+
+    # Rodapé da última página
+    desenhar_rodape(c, 1)
+    c.save()
