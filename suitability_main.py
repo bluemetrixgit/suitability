@@ -66,7 +66,7 @@ st.write("Preencha os campos abaixo para realizar o cadastro do Suitability")
 EMAIL_USER = "davidalves.bluemetrix@gmail.com"
 EMAIL_PASSWORD = "tdmz pjgo szue ngir" 
 EMAIL_FROM_NAME = "Middle Office Bluemetrix"
-EMAIL_TO = "bruno.borges@bluemetrix.com.br"
+EMAIL_TO = "backoffice@bluemetrix.com.br"
 
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
