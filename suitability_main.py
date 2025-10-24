@@ -63,8 +63,8 @@ st.write("Preencha os campos abaixo para realizar o cadastro do Suitability")
 
 # --------------------------- E-MAIL (envio automático) ---------------------------
 # Configuração de e-mail (envio sempre do mesmo endereço)
-EMAIL_USER = "davidalves.bluemetrix@gmail.com"
-EMAIL_PASSWORD = "tdmz pjgo szue ngir" 
+EMAIL_USER = "suitability.bluemetrix@gmail.com"
+EMAIL_PASSWORD = "Blue@2025" 
 EMAIL_FROM_NAME = "Middle Office Bluemetrix"
 EMAIL_TO = "backoffice@bluemetrix.com.br"
 
