@@ -115,7 +115,7 @@ def gerar_pdf(nome_arquivo: str, nome: str, cpf: str, respostas: dict, perfil: s
     col_w = (CONTENT_WIDTH - panel_gap) / 2
     
     # Linha 1: Nome | CPF
-    chip(c, CONTENT_LEFT, y, col_w, row_h, "Nome", nome)
+    chip(c, CONTENT_LEFT, y, col_w, row_h, "Nome Completo", nome)
     chip(c, CONTENT_LEFT + col_w + panel_gap, y, col_w, row_h, "CPF", formatar_cpf(cpf))
     y -= (row_h + panel_gap)
     
