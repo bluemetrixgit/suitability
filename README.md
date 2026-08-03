@@ -1,4 +1,4 @@
-O código fornecido parece ser uma aplicação web usando o Streamlit para realizar o questionário de suitability, gerar um relatório em PDF com base nas respostas e enviar esse relatório por e-mail. Aqui está uma explicação do que cada parte do código faz:
+O código fornecido parece ser uma aplicação web usando o Streamlit para realizar o questionário de API, gerar um relatório em PDF com base nas respostas e enviar esse relatório por e-mail. Aqui está uma explicação do que cada parte do código faz:
 
 Importações de bibliotecas: Importa as bibliotecas necessárias, como pandas, numpy, streamlit, etc.
 
