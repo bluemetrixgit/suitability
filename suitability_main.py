@@ -58,7 +58,7 @@ div[data-testid="stHeader"]{ background:transparent; }
 # Cabeçalho visual (sem iframe)
 st.image("bluemetrix_2024_suitability_cabecalho_100.jpg", use_column_width=True)
 st.markdown("## Questionário – Bluemetrix Asset")
-st.write("Preencha os campos abaixo para realizar o cadastro do Suitability")
+st.write("Preencha os campos abaixo para realizar o cadastro da API")
 
 
 # --------------------------- E-MAIL (envio automático) ---------------------------
@@ -76,10 +76,10 @@ SMTP_PORT = 587
 def enviar_email(nome_cliente: str, pdf_bytes: bytes) -> bool:
     data_br = datetime.now().strftime("%d/%m/%Y")
     data_nome = datetime.now().strftime("%d-%m-%Y")
-    nome_pdf = f"Suitability_{perfil}_{nome_cliente}_{data_nome}.pdf".replace(" ", "_")
+    nome_pdf = f"API_{perfil}_{nome_cliente}_{data_nome}.pdf".replace(" ", "_")
 
     msg = MIMEMultipart("related")  # permite HTML + imagens
-    msg["Subject"] = f"Suitability – {nome_cliente} – {data_br}"
+    msg["Subject"] = f"API – {nome_cliente} – {data_br}"
     msg["From"] = formataddr((EMAIL_FROM_NAME, EMAIL_USER))
     msg["To"] = EMAIL_TO
 
@@ -89,7 +89,7 @@ def enviar_email(nome_cliente: str, pdf_bytes: bytes) -> bool:
 
     corpo_html = f"""
     <p>Olá,</p>
-    <p>Segue em anexo o Questionário de Suitability do(a) {nome_cliente}, realizado em {data_br}.</p>
+    <p>Segue em anexo a API do(a) {nome_cliente}, realizado em {data_br}.</p>
     <br>
     <img src="cid:assinatura_bluemetrix" style="width:500px; height:auto;">
     """
@@ -187,7 +187,7 @@ class Interface_suitability():
                                      ['Investidor Profissional: Investidor profissional é uma pessoa jurídica ou física que atua no mercado financeiro, diretamente ou por meio de terceiros, e que possui investimentos financeiros em valor superior a R$ 10 milhões e atestou por escrito(Assinou o termo de Investidor Profissional). ',
                                       'Investidor Qualificado: Pessoa física ou jurídica que possui investimentos financeiros em valor superior a R$ 1 milhão e atestou por escrito(Assinou o termo de Investidor Qualificado).',
                                       'Investidor Não Qualificado: Um Não qualificado é aquele que não se enquadra nas definições de investidor profissional ou qualificado. Geralmente, são indivíduos sem certificações específicas para o mercado financeiro.'])
-        st.write('Conforme Instrução CVM N. 554/2014')
+        st.write('Declaro estar ciente de que este questionário é aplicado pela Bluemetrix Gestão de Ativos S.A. em cumprimento a obrigação própria, prevista no art. 8º do Anexo Complementar II das Regras e Procedimentos do Código ANBIMA de Administração e Gestão de Recursos de Terceiros, e que tem por objetivo definir a Política de Investimento da minha Carteira Administrada. Declaro, ainda, estar ciente de que esta análise é independente e autônoma em relação ao dever de verificação da adequação (suitability) previsto na Resolução CVM nº 30/2021, não se confundindo com o questionário eventualmente aplicado por instituição custodiante ou distribuidora.')
         return (primeira_pergunta,segunda_pergunta,terceira_pergunta,quarta_pergunta,quinta_pergunta,
                 sexta_pergunta,setima_pergunta,oitava_pergunta,nona_pergunta,decima_pergunta,decima_primeira_pregunta)
 
@@ -213,7 +213,7 @@ respostas_dict = {
 respostas_que_pontuam = respostas_tuple[:-1]
 
 # LGPD
-consent = st.checkbox("Autorizo o tratamento dos meus dados para fins de suitability (LGPD). *")
+consent = st.checkbox("Autorizo o tratamento dos meus dados para fins de análise do perfil de investidor (LGPD). *")
 
 st.divider()
 if st.button("Gerar e Enviar"):
