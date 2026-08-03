@@ -16,7 +16,7 @@ from pdf_padrao import gerar_pdf                     # PDF com cabeçalho, quebr
 from datetime import datetime
 
 # --------------------------- CONFIG PÁGINA / TEMA ---------------------------
-st.set_page_config(page_title="Suitability - Bluemetrix", page_icon="📄", layout="centered")
+st.set_page_config(page_title="API - Bluemetrix", page_icon="📄", layout="centered")
 
 
 st.markdown("""
